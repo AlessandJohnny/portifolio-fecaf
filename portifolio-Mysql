@@ -1,0 +1,230 @@
+show databases;
+show tables;
+use db_portifolio;
+show tables
+drop table tbl_cor;
+
+select * from tbl_alunos
+select * from tbl_telefone
+select * from tbl_email
+select * from tbl_materia
+select * from tbl_curso
+select * from tbl_endereco
+select * from tbl_professores
+select * from tbl_turma
+select * from tbl_notas
+
+
+
+create database db_portifolio
+
+# tabela Alunos #
+
+create table tbl_alunos (
+id int not null primary key auto_increment,
+data_nascimento date not null,
+nome_alunos varcharacter(45) not null,
+unique index(id)
+);
+
+INSERT INTO tbl_alunos (data_nascimento, nome_alunos) VALUES
+('2001-05-20', 'Maria Oliveira'),
+('1999-10-30', 'Pedro Santos'),
+('1999-08-15', 'Andre valez'),
+('1999-07-25', 'Claudia Fernandes'),
+('1994-12-25', 'Natalina de jesus'),
+('1995-03-12', 'Lucas Pereira'),
+('2000-06-24', 'Beatriz Gomes'),
+('1998-11-09', 'Thiago Alves'),
+('2003-02-15', 'Sofia Lima'),
+('1996-09-18', 'Rafael Martins');
+
+# tabela telefone # 
+
+CREATE TABLE tbl_telefone (
+    telefone_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    numero_telefone VARCHAR(15) NOT NULL,
+    aluno_id INT, 
+    CONSTRAINT fk_alunos
+        FOREIGN KEY (aluno_id) REFERENCES tbl_alunos(id) 
+        ON DELETE CASCADE 
+        
+        );
+ 
+ INSERT INTO tbl_telefone (numero_telefone, aluno_id) VALUES
+('11987654321', 1), 
+('11912345678', 2),  
+('11976543210', 3),  
+('11923456789', 4),  
+('11987654322', 5),  
+('11954321678', 6),  
+('11965432109', 7),  
+('11912398765', 8),  
+('11923498765', 9),  
+('11934567890', 10); 
+
+          # tabela email #
+          
+CREATE TABLE tbl_email (
+    email_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    email_aluno VARCHAR(150) NOT NULL,
+    aluno_id INT, 
+    CONSTRAINT fk_email_alunos
+        FOREIGN KEY (aluno_id) REFERENCES tbl_alunos(id) 
+        ON DELETE CASCADE 
+        
+        );
+        
+	INSERT INTO tbl_email (email_aluno, aluno_id) VALUES
+('maria.oliveira@gmail.com', 1),  
+('pedro.santos@gmail.com', 2),    
+('andre.valez@outlook.com', 3),     
+('claudia.fernandes@gmail.com', 4), 
+('natalina.jesus@gmail.com', 5),   
+('lucas.pereira@egmail.com', 6),    
+('beatriz.gomes@gmail.com', 7),   
+('thiago.alves@gmail.com', 8),      
+('sofia.lima@gmail.com', 9),      
+('rafael.martins@gmail.com', 10);
+
+        # tabela materia # 
+        
+CREATE TABLE tbl_materia (
+    materia_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome_disciplina VARCHAR(150) NOT NULL,
+    aluno_id INT, 
+    CONSTRAINT fk_materia_alunos
+        FOREIGN KEY (aluno_id) REFERENCES tbl_alunos(id) 
+        ON DELETE CASCADE 
+        
+        );
+        
+        INSERT INTO tbl_materia (nome_disciplina, aluno_id) VALUES
+('Matemática', 1),     
+('Português', 1),      
+('História', 2),       
+('Ciências', 3),      
+('Educação Física', 4), 
+('Química', 5),        
+('Física', 6),         
+('Geografia', 7),      
+('Arte', 8),         
+('Educação Religiosa', 9);
+        
+        # tabela curso # 
+        
+create table tbl_curso (
+id int not null primary key auto_increment,
+duracao date not null,
+nome_curso varcharacter(45) not null,
+unique index(id)
+);
+
+ALTER TABLE tbl_alunos
+ADD COLUMN curso_id INT,
+ADD CONSTRAINT fk_curso
+    FOREIGN KEY (curso_id) REFERENCES tbl_curso(id)
+    ON DELETE SET NULL;
+    
+INSERT INTO tbl_curso (duracao, nome_curso) VALUES
+('5 anos', 'Curso de Matemática Avançada'),
+('2 anos e meio', 'Curso de Português para Estrangeiros'),
+('5 anos', 'Curso de História do Brasil'),
+('8 anos', 'Curso de Ciências da Natureza'),
+('2 anos e meio', 'Curso de Educação Física e Saúde');
+    
+    # tabela Enderço do aluno #
+    
+CREATE TABLE tbl_endereco (
+    endereco_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    UF VARCHAR(2) NOT NULL,
+    Cidade VARCHAR(15) NOT NULL,
+    Bairro VARCHAR(50) NOT NULL,
+    Rua VARCHAR(50) NOT NULL,
+    Cep VARCHAR(10) NOT NULL,
+    aluno_id INT,  
+    CONSTRAINT fk_aluno
+        FOREIGN KEY (aluno_id) REFERENCES tbl_alunos(id)
+        ON DELETE CASCADE 
+);
+
+INSERT INTO tbl_endereco (UF, Cidade, Bairro, Rua, Cep, aluno_id) VALUES
+('SP', 'São Paulo', 'Centro', 'Avenida Paulista', '01310-000', 1),
+('RJ', 'Rio de Janeiro', 'Copacabana', 'Rua Barata Ribeiro', '22051-001', 2),
+('MG', 'Belo Horizonte', 'Savassi', 'Rua Antônio de Albuquerque', '30130-110', 3),
+('BA', 'Salvador', 'Barra', 'Avenida Oceanica', '40140-130', 4),
+('PR', 'Curitiba', 'Centro', 'Rua XV de Novembro', '80420-000', 5),
+('SP', 'São Paulo', 'Jardins', 'Rua Oscar Freire', '01426-000', 6),
+('RJ', 'Rio de Janeiro', 'Leblon', 'Avenida Delfim Moreira', '22440-002', 7), 
+('SP', 'São Paulo', 'Pinheiros', 'Rua dos Três Irmãos', '05422-030', 8),
+('DF', 'Brasília', 'Asa Sul', 'SEPS 706/907', '70310-002', 9),
+('MG', 'Belo Horizonte', 'Funcionários', 'Rua Rio de Janeiro', '30150-000', 10);
+
+      # tabela professor #
+      
+create table tbl_professores (
+id int not null primary key auto_increment,
+nome_professor varchar(45) not null,
+materia_da_aula varchar(45) not null
+);
+
+INSERT INTO tbl_professores (nome_professor, materia_da_aula) VALUES
+('Prof. José da Silva', 'Matemática Avançada'), 
+('Prof. Clara Souza', 'Português para Estrangeiros'), 
+('Prof. Marcos Ferreira', 'História do Brasil'),   
+('Prof. Ana Paula', 'Ciências da Natureza'),  
+('Prof. Ricardo Gomes', 'Educação Física e Saúde'); 
+
+    # tabela turma #
+ 
+CREATE TABLE tbl_turma (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    semestre_ano VARCHAR(10) NOT NULL, 
+    aluno_id INT,  
+    materia_id INT,  
+    CONSTRAINT fk_turma_aluno  
+        FOREIGN KEY (aluno_id) REFERENCES tbl_alunos(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_turma_materia  
+        FOREIGN KEY (materia_id) REFERENCES tbl_curso(id)
+        ON DELETE CASCADE
+);
+
+INSERT INTO tbl_turma (semestre_ano, aluno_id, materia_id) VALUES
+('1º semestre de 2024', 1, 1),  
+('3º semestre de 2024', 2, 2),  
+('1º semestre de 2024', 3, 3),  
+('2º semestre de 2024', 4, 4),  
+('1º semestre de 2024', 5, 5),  
+('2º semestre de 2024', 6, 1),  
+('2º semestre de 2024', 7, 2),  
+('2º semestre de 2024', 8, 3),  
+('2º semestre de 2024', 9, 4),  
+('2º semestre de 2024', 10, 5); 
+
+        # tabela de notas dos alunos # 
+        
+CREATE TABLE tbl_notas (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    semestre_ano VARCHAR(10) NOT NULL, 
+    aluno_id INT,  
+    materia_id INT,  
+    CONSTRAINT fk_notas_aluno  
+        FOREIGN KEY (aluno_id) REFERENCES tbl_alunos(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_notas_materia  
+        FOREIGN KEY (materia_id) REFERENCES tbl_curso(id)
+        ON DELETE CASCADE
+);
+
+INSERT INTO tbl_notas (semestre_ano, aluno_id, materia_id) VALUES
+('1º semestre de 2024', 1, 1),  
+('1º semestre de 2024', 2, 2),  
+('1º semestre de 2024', 3, 3),  
+('1º semestre de 2024', 4, 4),  
+('1º semestre de 2024', 5, 5),   
+('2º semestre de 2024', 6, 1),   
+('2º semestre de 2024', 7, 2), 
+('2º semestre de 2024', 8, 3),   
+('2º semestre de 2024', 9, 4), 
+('2º semestre de 2024', 10, 5);
